@@ -1,4 +1,10 @@
-# CsvValidation
+# Csv Validator
+
+This is a Angular 2 service that has 2 public methods:
+
+1) detectCSV - detects if the content of a CSV (in the sense of character seperated values) is valid and determine the delimiter character. Number of delimiters must be the same in each line for it to be considered valid (check method documentation for more details on how to use it)
+
+2) isCsvExtension - Determines wether a file has a .csv extension (can be used to improve validation).
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.6.
 
