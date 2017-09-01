@@ -10,6 +10,8 @@ export class CsvValidatorService {
    *
    * It takes a second param called "opts", a object containing:
    * delimiter: Delimiter to detect, default to ";"
+   * expectedDelimiterCount: Expected count of delimiters in the first line of the CSV. This should be used to ensure that the CSV has 
+   * the expected number of columns.
    * 
    * Exemples of usage:
    * let isCsv = detectCSV('a;b;c\n1;2;3', { delimiter: ';' });
@@ -23,6 +25,8 @@ export class CsvValidatorService {
    *
    * let isCsv = detectCSV('lalala', { delimiter: ';' });
    *   returns: null
+   * 
+   * Check service specs to get more examples
    *
    * @param content Csv content as text
    * @param opts opts (see examples above)
@@ -42,6 +46,12 @@ export class CsvValidatorService {
 
     // counts delimiters in header
     const headerCount = this.countDelimiters(csvLines[0], delimiters, expectedDelimiter);
+
+    if (opts.expectedDelimiterCount) {
+      if (headerCount !== opts.expectedDelimiterCount) {
+        return null;
+      }
+    }
 
     if (headerCount) {
       // counts delimiters in the whole content
@@ -69,7 +79,8 @@ export class CsvValidatorService {
   private countDelimiters(content, items, expectedDelimiter) {
     let ignoreString = false;
     const itemCount: any = {};
-    const contentLength = content.length;
+    let contentLength;
+    content ? contentLength = content.length : contentLength = 0;
 
     items.forEach((item) => {
       itemCount[item] = 0;

@@ -43,4 +43,16 @@ describe('Csv Validator Service', () => {
   it('not valid expected delimiter. should return null', () => {
     expect(csvValidator.detectCSV('a;b,c\nd,e,f', { delimiter: ')' })).toEqual(null);
   });
+
+  it('empty CSV. should return null', () => {
+    expect(csvValidator.detectCSV('', { delimiter: ';' })).toEqual(null);
+  });
+
+  it('Expected columns count. should return expected delimiter', () => {
+    expect(csvValidator.detectCSV('a;b;c\n1;2;3', { delimiter: ';', expectedDelimiterCount: 2 })).toEqual({ delimiter: ';' });
+  });
+
+  it('Not the expected columns count. should return expected delimiter', () => {
+    expect(csvValidator.detectCSV('a;b;c;e\n1;2;3;4', { delimiter: ';', expectedDelimiterCount: 2 })).toEqual(null);
+  });
 });
